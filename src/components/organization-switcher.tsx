@@ -1,9 +1,8 @@
 "use client"
 
 import * as React from "react"
+import { useEffect } from "react"
 import { Check, ChevronsUpDown, GalleryVerticalEnd } from "lucide-react"
-
-import { Organization } from "@/models/organization"
 
 import {
   DropdownMenu,
@@ -18,6 +17,9 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
+import { Organization } from "@/models/organization"
+import { useRouter } from "next/navigation"
+
 
 export function OrganizationSwitcher({
   organizations,
@@ -26,7 +28,13 @@ export function OrganizationSwitcher({
   organizations: Organization[]
   defaultOrganization: Organization
 }) {
-  const [selectedOrganization, setSelectedOrganization] = React.useState(defaultOrganization)
+  const [selectedOrganization, setSelectedOrganization] = React.useState<Organization>(defaultOrganization)
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push(`/${selectedOrganization.slug}/dashboard`)
+  }, [selectedOrganization]);
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -54,7 +62,7 @@ export function OrganizationSwitcher({
                 key={organization.slug}
                 onSelect={() => setSelectedOrganization(organization)}
               >
-                {selectedOrganization.name}
+                {organization.name}
                 {organization === selectedOrganization && <Check className="ml-auto" />}
               </DropdownMenuItem>
             ))}

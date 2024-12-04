@@ -1,4 +1,4 @@
-import { Calendar, Database, Home, Inbox, LayoutDashboard, Search, Settings } from "lucide-react"
+import {  Database, LayoutDashboard, Router } from "lucide-react"
 import {
     Sidebar,
     SidebarContent,
@@ -15,48 +15,42 @@ import {
 
 import { NavUser } from "./nav-user"
 import { OrganizationSwitcher } from "./organization-switcher";
+import React from "react";
 import { auth } from "@/auth";
-
+import { getOrganizations } from "@/lib/orgs/api";
 import { Organization } from "@/models/organization";
 
 const items = [
     {
         title: "Dashboard",
-        url: "#",
+        url: "/dashboard",
         icon: LayoutDashboard,
     },
     {
         title: "Registries",
-        url: "#",
+        url: "/dashboard/registries",
         icon: Database,
     },
 ]
 
-async function getOrganizations() {
-    const session = await auth() as any;
-    const res = await fetch(process.env.API_BASE_URL + "/organizations", {
-        headers: { "Authorization":  `Bearer ${session?.accessToken}` }
-    })
-    return res.json()
-}
-
-function getPersonalOrganization(organizations: Organization[]): Organization {
-    let result = organizations.filter(org => {
-        return org.is_personal;
-    })
-    return result[0]
-}
-
-export async function AppSidebar() {
+export async function AppSidebar({ organizationSlug }: { organizationSlug: string}) {
     const session = await auth();
-    const organizations: Organization[] = await getOrganizations();
+
+    const organizations: Organization[] = await getOrganizations(session?.access_token);
+    let currentOrg = null
+    for(let i = 0; i < organizations.length; i++) {
+        if(organizations[i].slug == organizationSlug) {
+            currentOrg = organizations[i]
+            break
+        }
+    }
 
     return (
         <Sidebar>
             <SidebarHeader>
                 <OrganizationSwitcher
                     organizations={organizations}
-                    defaultOrganization={getPersonalOrganization(organizations)}
+                    defaultOrganization={currentOrg!}
                 />
             </SidebarHeader>
             <SidebarContent>
