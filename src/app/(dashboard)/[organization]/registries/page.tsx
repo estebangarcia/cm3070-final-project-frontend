@@ -1,15 +1,31 @@
-import { auth, signOut } from "@/auth"
+import { auth } from "@/auth"
 import { OrganizationScopedProps } from "../interfaces";
+import { DataTable } from "@/components/ui/data-table";
+import { columns } from "./columns"
+import { getRegistries } from "@/lib/registries/api";
+import { Heading } from "@/components/ui/heading";
+import PageContainer from "@/components/page-container";
+import { Separator } from "@/components/ui/separator";
+import { CreateRegistryDialog } from "./_components/create_registry_dialog";
 
 export default async function Registries({params}: OrganizationScopedProps) {
   const session = await auth()
-  const { organization } = params;
+  const { organization } = await params;
+  const registries = await getRegistries(session?.access_token, organization);
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-          Registries {organization}
-      </main>
-    </div>
+    <PageContainer>
+      <div className="space-y-4">
+        <div className="flex items-start justify-between">
+            <Heading
+              title={`Registries`}
+              description="Manage registries"
+            />
+            <CreateRegistryDialog organization={organization} />
+        </div>
+        <Separator/>
+        <DataTable columns={columns} data={registries} />
+      </div>
+    </PageContainer>
   );
 }

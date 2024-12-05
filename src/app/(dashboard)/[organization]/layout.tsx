@@ -6,9 +6,9 @@ import { getOrganization } from "@/lib/orgs/api";
 import { notFound } from "next/navigation";
 
 export default async function Layout({children, params}: { children: React.ReactNode, params: Promise<{organization: string}> }) {  
-  const { organization } = await params;
-
   const session = await auth();  
+  const { organization } = await params;
+  
   const org = await getOrganization(session?.access_token, organization)
   if(!org) {
     notFound();

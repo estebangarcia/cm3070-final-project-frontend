@@ -23,12 +23,12 @@ import { Organization } from "@/models/organization";
 const items = [
     {
         title: "Dashboard",
-        url: "/dashboard",
+        url: "/[organizationSlug]/dashboard",
         icon: LayoutDashboard,
     },
     {
         title: "Registries",
-        url: "/dashboard/registries",
+        url: "/[organizationSlug]/registries",
         icon: Database,
     },
 ]
@@ -61,7 +61,7 @@ export async function AppSidebar({ organizationSlug }: { organizationSlug: strin
                         {items.map((item) => (
                             <SidebarMenuItem key={item.title}>
                             <SidebarMenuButton asChild>
-                                <a href={item.url}>
+                                <a href={item.url.replace("[organizationSlug]", currentOrg!.slug)}>
                                 <item.icon />
                                 <span>{item.title}</span>
                                 </a>
