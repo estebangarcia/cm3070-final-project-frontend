@@ -1,4 +1,9 @@
-import {  Database, LayoutDashboard, Router } from "lucide-react"
+import {  ChevronRight, Database, LayoutDashboard, Minus, Plus, Router } from "lucide-react"
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from "@/components/ui/collapsible"
 import {
     Sidebar,
     SidebarContent,
@@ -8,6 +13,10 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    SidebarMenuSub,
+    SidebarMenuAction,
+    SidebarMenuSubItem,
+    SidebarMenuSubButton,
     SidebarHeader,
     SidebarFooter,
     SidebarRail,
@@ -19,6 +28,12 @@ import React from "react";
 import { auth } from "@/auth";
 import { getOrganizations } from "@/lib/orgs/api";
 import { Organization } from "@/models/organization";
+import { Registry } from "@/models/registry";
+
+interface SideBarProps {
+    organizationSlug: string;
+    registries: Registry[];
+}
 
 const items = [
     {
@@ -33,7 +48,7 @@ const items = [
     },
 ]
 
-export async function AppSidebar({ organizationSlug }: { organizationSlug: string}) {
+export async function AppSidebar({ organizationSlug, registries }: SideBarProps) {
     const session = await auth();
 
     const organizations: Organization[] = await getOrganizations(session?.access_token);
@@ -44,6 +59,10 @@ export async function AppSidebar({ organizationSlug }: { organizationSlug: strin
             break
         }
     }
+    /*
+    {items.map((item) => (
+    ))}
+    */
 
     return (
         <Sidebar>
@@ -58,16 +77,50 @@ export async function AppSidebar({ organizationSlug }: { organizationSlug: strin
                     <SidebarGroupLabel>Application</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                        {items.map((item) => (
-                            <SidebarMenuItem key={item.title}>
-                            <SidebarMenuButton asChild>
-                                <a href={item.url.replace("[organizationSlug]", currentOrg!.slug)}>
-                                <item.icon />
-                                <span>{item.title}</span>
-                                </a>
-                            </SidebarMenuButton>
+                            <SidebarMenuItem key="Dashboard">
+                                <SidebarMenuButton asChild>
+                                    <a href={`/${organizationSlug}/dashboard`}>
+                                        <LayoutDashboard />
+                                        <span>Dashboard</span>
+                                    </a>
+                                </SidebarMenuButton>
                             </SidebarMenuItem>
-                        ))}
+                            <Collapsible
+                                key="registries"
+                                asChild
+                                defaultOpen={false}
+                                className="group/collapsible"
+                            >
+                                <SidebarMenuItem key="Registries">
+                                    <SidebarMenuButton asChild>
+                                        <a href={`/${organizationSlug}/registries`}>
+                                            <Database />
+                                            <span>Registries</span>
+                                        </a>
+                                    </SidebarMenuButton>
+                                    {registries.length > 0 ? (
+                                        <>
+                                            <CollapsibleTrigger asChild>
+                                                <SidebarMenuAction className="data-[state=open]:rotate-90">
+                                                    <ChevronRight />
+                                                    <span className="sr-only">Toggle</span>
+                                                </SidebarMenuAction>
+                                            </CollapsibleTrigger>
+                                            <CollapsibleContent>
+                                                <SidebarMenuSub>
+                                                    {registries.map((registry) => (
+                                                        <SidebarMenuSubItem key={registry.name}>
+                                                            <SidebarMenuSubButton asChild>
+                                                                <a href={`/${organizationSlug}/registries/${registry.slug}`}>{registry.name}</a>
+                                                            </SidebarMenuSubButton>
+                                                        </SidebarMenuSubItem>
+                                                    ))}
+                                                </SidebarMenuSub>
+                                            </CollapsibleContent>
+                                        </>
+                                    ) : null}
+                                </SidebarMenuItem>
+                            </Collapsible>
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
