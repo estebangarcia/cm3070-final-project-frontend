@@ -33,22 +33,10 @@ import { Registry } from "@/models/registry";
 interface SideBarProps {
     organizationSlug: string;
     registries: Registry[];
+    activeRegistrySlug?: string;
 }
 
-const items = [
-    {
-        title: "Dashboard",
-        url: "/[organizationSlug]/dashboard",
-        icon: LayoutDashboard,
-    },
-    {
-        title: "Registries",
-        url: "/[organizationSlug]/registries",
-        icon: Database,
-    },
-]
-
-export async function AppSidebar({ organizationSlug, registries }: SideBarProps) {
+export async function AppSidebar({ organizationSlug, registries, activeRegistrySlug }: SideBarProps) {
     const session = await auth();
 
     const organizations: Organization[] = await getOrganizations(session?.access_token);
@@ -59,10 +47,6 @@ export async function AppSidebar({ organizationSlug, registries }: SideBarProps)
             break
         }
     }
-    /*
-    {items.map((item) => (
-    ))}
-    */
 
     return (
         <Sidebar>
@@ -88,7 +72,7 @@ export async function AppSidebar({ organizationSlug, registries }: SideBarProps)
                             <Collapsible
                                 key="registries"
                                 asChild
-                                defaultOpen={false}
+                                defaultOpen={activeRegistrySlug != undefined}
                                 className="group/collapsible"
                             >
                                 <SidebarMenuItem key="Registries">
@@ -110,7 +94,7 @@ export async function AppSidebar({ organizationSlug, registries }: SideBarProps)
                                                 <SidebarMenuSub>
                                                     {registries.map((registry) => (
                                                         <SidebarMenuSubItem key={registry.name}>
-                                                            <SidebarMenuSubButton asChild>
+                                                            <SidebarMenuSubButton asChild isActive={registry.slug == activeRegistrySlug}>
                                                                 <a href={`/${organizationSlug}/registries/${registry.slug}`}>{registry.name}</a>
                                                             </SidebarMenuSubButton>
                                                         </SidebarMenuSubItem>

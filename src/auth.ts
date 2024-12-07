@@ -91,6 +91,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return true;
       }
 
+      if(auth?.error) {
+        return false;
+      }
+
       // Logged in users are authenticated, otherwise redirect to login page
       return !!auth
     },
