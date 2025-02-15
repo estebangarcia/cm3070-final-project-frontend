@@ -10,10 +10,10 @@ export default function RootPage() {
   useEffect(() => {
     fetch('/api/default-org')
       .then(async (res) => {
-        let org = (await res.json()) as Organization;
+        const org = (await res.json()) as Organization;
         router.push(`/${org.slug}/dashboard`)
       })
-      .catch((error) => {
+      .catch(() => {
         notFound();
       })
   }, [])

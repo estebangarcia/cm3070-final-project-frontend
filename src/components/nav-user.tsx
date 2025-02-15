@@ -34,14 +34,14 @@ type NavUserProps = {
 }
 
 export function NavUser({ user }: NavUserProps) {
-    let userName = user?.name || "";
-    let userAvatar = user?.image || "";
-    let userEmail = user?.email || "";
+    const userName = user?.name || "";
+    const userAvatar = user?.image || "";
+    const userEmail = user?.email || "";
 
-    let userFirstName = user?.name?.split(" ")[0]
-    let userLastName = user?.name?.split(" ")[1]
+    const userFirstName = user?.name?.split(" ")[0]
+    const userLastName = user?.name?.split(" ")[1]
 
-    let avatarFallback = (userFirstName ? userFirstName[0] : "C") + (userLastName ? userLastName[0] : "N");
+    const avatarFallback = (userFirstName ? userFirstName[0] : "C") + (userLastName ? userLastName[0] : "N");
 
     const { isMobile } = useSidebar()
     return (

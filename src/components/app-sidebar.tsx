@@ -1,4 +1,4 @@
-import {  ChevronRight, Database, LayoutDashboard, Minus, Plus, Router } from "lucide-react"
+import {  ChevronRight, Database, LayoutDashboard } from "lucide-react"
 import {
     Collapsible,
     CollapsibleContent,
@@ -29,6 +29,7 @@ import { auth } from "@/auth";
 import { getOrganizations } from "@/lib/orgs/api";
 import { Organization } from "@/models/organization";
 import { Registry } from "@/models/registry";
+import Link from "next/link";
 
 interface SideBarProps {
     organizationSlug: string;
@@ -63,10 +64,10 @@ export async function AppSidebar({ organizationSlug, registries, activeRegistryS
                         <SidebarMenu>
                             <SidebarMenuItem key="Dashboard">
                                 <SidebarMenuButton asChild>
-                                    <a href={`/${organizationSlug}/dashboard`}>
+                                    <Link href={`/${organizationSlug}/dashboard`}>
                                         <LayoutDashboard />
                                         <span>Dashboard</span>
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <Collapsible
@@ -77,10 +78,10 @@ export async function AppSidebar({ organizationSlug, registries, activeRegistryS
                             >
                                 <SidebarMenuItem key="Registries">
                                     <SidebarMenuButton asChild>
-                                        <a href={`/${organizationSlug}/registries`}>
+                                        <Link href={`/${organizationSlug}/registries`}>
                                             <Database />
                                             <span>Registries</span>
-                                        </a>
+                                        </Link>
                                     </SidebarMenuButton>
                                     {registries.length > 0 ? (
                                         <>
@@ -95,7 +96,7 @@ export async function AppSidebar({ organizationSlug, registries, activeRegistryS
                                                     {registries.map((registry) => (
                                                         <SidebarMenuSubItem key={registry.name}>
                                                             <SidebarMenuSubButton asChild isActive={registry.slug == activeRegistrySlug}>
-                                                                <a href={`/${organizationSlug}/registries/${registry.slug}`}>{registry.name}</a>
+                                                                <Link href={`/${organizationSlug}/registries/${registry.slug}`}>{registry.name}</Link>
                                                             </SidebarMenuSubButton>
                                                         </SidebarMenuSubItem>
                                                     ))}

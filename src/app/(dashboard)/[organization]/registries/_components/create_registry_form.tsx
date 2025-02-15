@@ -1,5 +1,3 @@
-"use client"
-
 import { z } from "zod"
 import slugify from '@sindresorhus/slugify';
 import {
@@ -13,8 +11,6 @@ import {
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Plus } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { DialogFooter } from "@/components/ui/dialog"
@@ -29,7 +25,7 @@ const FormSchema = z.object({
 
 interface CreateRegistryFormProps {
   organization: string;
-  onSuccessfulSubmit(): any;
+  onSuccessfulSubmit: () => void;
 }
 
 export function CreateRegistryForm({organization, onSuccessfulSubmit}: CreateRegistryFormProps) {
@@ -43,7 +39,7 @@ export function CreateRegistryForm({organization, onSuccessfulSubmit}: CreateReg
   })
  
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    let response = await createRegistry(organization, data.name);
+    const response = await createRegistry(organization, data.name);
     if(response != null) {
       onSuccessfulSubmit();
     }

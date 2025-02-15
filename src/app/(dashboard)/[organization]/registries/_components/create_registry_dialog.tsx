@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Plus, Router } from "lucide-react"
+import { Plus } from "lucide-react"
 import { CreateRegistryForm } from "./create_registry_form"
 import { useState } from "react";
 import { useRouter } from "next/navigation";

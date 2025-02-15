@@ -3,23 +3,23 @@ import { Heading } from "@/components/ui/heading";
 import PageContainer from "@/components/page-container";
 import { Separator } from "@/components/ui/separator";
 import { notFound } from "next/navigation";
-import { getRepositories } from "@/lib/repositories/api";
-import RepositoriesTable from "./data_table";
+import { getArtifacts } from "@/lib/artifacts/api";
+import ArtifactsTable from "./data_table";
 
 export interface RegistryScopedProps {
   params: Promise<{ 
       organization: string,
-      registry: string
+      registry: string,
+      repository: string
   }>
 }
 
-export default async function Repositories({params}: RegistryScopedProps) {
+export default async function RepositoryArtifacts({params}: RegistryScopedProps) {
   const session = await auth()
-  const { organization } = await params;
-  const { registry } = await params;
+  const { organization, registry, repository } = await params;
 
-  const repositories = await getRepositories(session?.access_token, organization, registry);
-  if(!repositories) {
+  const artifacts = await getArtifacts(session?.access_token, organization, registry, repository);
+  if(!artifacts) {
     notFound();
   }
   
@@ -28,12 +28,12 @@ export default async function Repositories({params}: RegistryScopedProps) {
       <div className="space-y-4">
         <div className="flex items-start justify-between">
             <Heading
-              title={`Repositories`}
-              description="Manage repositories"
+              title={`${repository} Artifacts`}
+              description="Manage Artifacts"
             />
         </div>
         <Separator/>
-        <RepositoriesTable organization={organization} registry={registry} repositories={repositories} />
+        <ArtifactsTable organization={organization} registry={registry} artifacts={artifacts} repository={repository} />
       </div>
     </PageContainer>
   );
