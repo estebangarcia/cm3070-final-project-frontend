@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import { Check, ChevronsUpDown, GalleryVerticalEnd } from "lucide-react"
 
 import {
@@ -19,7 +19,6 @@ import {
 
 import { Organization } from "@/models/organization"
 import { useRouter } from "next/navigation"
-import { off } from "process"
 
 
 export function OrganizationSwitcher({

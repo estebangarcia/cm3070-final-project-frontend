@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from "@/auth"
-import { getOrganizations, getPersonalOrganization } from '@/lib/orgs/api';
 import { createRegistry } from '@/lib/registries/api';
  
 interface CreateRegistryRequest {
@@ -8,7 +7,7 @@ interface CreateRegistryRequest {
 }
 
 interface CreateRegistryParams {
-    params: { organization: string };
+    params: Promise<{ organization: string }>;
 }
 
 export async function POST(request: NextRequest, { params } : CreateRegistryParams) {

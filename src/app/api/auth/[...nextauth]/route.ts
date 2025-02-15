@@ -2,7 +2,7 @@ import { type NextRequest } from 'next/server'
 import { signIn, handlers } from "@/auth"
  
 export async function GET(request: NextRequest) {
-    let code = request.nextUrl.searchParams.get("code");
+    const code = request.nextUrl.searchParams.get("code");
     if(code != null && code != "") {
         return handlers.GET(request)
     }

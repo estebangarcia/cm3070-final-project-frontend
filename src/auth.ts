@@ -3,12 +3,13 @@ import "next-auth/jwt"
 import Cognito from "next-auth/providers/cognito"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
   providers: [
     Cognito({
       authorization: {
         params: { scope: "openid email phone profile" }
       },
-      profile(profile, tokens) {
+      profile(profile) {
         return {
           email: profile.email,
           name: profile.given_name + " " + profile.family_name,
@@ -19,7 +20,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     })
   ],
   callbacks: {
-    jwt: async ({token, trigger, session, account}) => {
+    jwt: async ({token, account}) => {
       if (account) {
         // First-time login, save the `access_token`, its expiry and the `refresh_token`
         return {

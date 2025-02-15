@@ -4,13 +4,13 @@ import { NextRequest } from 'next/server';
 
 const clearCookieOptions = `Max-Age=-1; Path=/; Secure; HttpOnly;`
 
-export async function GET(req: NextRequest, res: Response) {
+export async function GET(req: NextRequest) {
   try {
     const url = process.env.AUTH_COGNITO_LOGOUT_URL + "?client_id=" + process.env.AUTH_COGNITO_ID + "&logout_uri=" + encodeURIComponent(req.nextUrl.origin+"/");
 
     // Clear all cookies
     let setCookies = ''
-    let cks = await cookies();
+    const cks = await cookies();
     cks.getAll()
       .forEach((cookie) => {
         setCookies += `${cookie.name}=; ${clearCookieOptions}`

@@ -19,7 +19,7 @@ export async function getOrganization(access_token: string | undefined, slug: st
 }
 
 export function getPersonalOrganization(organizations: Organization[]): Organization {
-	let result = organizations.filter(org => {
+	const result = organizations.filter(org => {
 		return org.is_personal;
 	})
 	return result[0]

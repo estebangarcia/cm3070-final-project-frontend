@@ -1,3 +1,3 @@
 export interface OrganizationScopedProps {
-    params: { organization: string }
+    params: Promise<{ organization: string }>
 }
