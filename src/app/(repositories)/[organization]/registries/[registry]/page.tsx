@@ -15,8 +15,7 @@ export interface RegistryScopedProps {
 
 export default async function Repositories({params}: RegistryScopedProps) {
   const session = await auth()
-  const { organization } = await params;
-  const { registry } = await params;
+  const { organization, registry } = await params;
 
   const repositories = await getRepositories(session?.access_token, organization, registry);
   if(!repositories) {

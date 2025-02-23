@@ -1,5 +1,4 @@
 import { auth } from "@/auth";
-import { getOrganization } from "@/lib/orgs/api";
 import { notFound } from "next/navigation";
 import { getRegistry } from "@/lib/registries/api";
 import SidebarLayout from "@/components/sidebar_layout";
