@@ -7,6 +7,9 @@ import { notFound } from "next/navigation";
 import ManifestCodeBlock from './codeblock';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getManifest } from '@/lib/manifests/api';
+import { getArtifactVulnerabilities, getArtifact } from '@/lib/artifacts/api';
+import { columns as vulnerability_columns } from './vulnerability_columns';
+import { DataTable } from '@/components/ui/data-table';
 
 export interface ArtifactScopedProps {
   params: Promise<{ 
@@ -21,12 +24,23 @@ export default async function ArtifactDetails({params}: ArtifactScopedProps) {
   const session = await auth()
   const { organization, registry, repository, digest } = await params;
 
-  const manifest = await getManifest(session?.access_token, organization, registry, repository, decodeURIComponent(digest));
+  const responses = await Promise.all([
+    getArtifact(session?.access_token, organization, registry, repository, decodeURIComponent(digest)),
+    getManifest(session?.access_token, organization, registry, repository, decodeURIComponent(digest)),
+    getArtifactVulnerabilities(session?.access_token, organization, registry, repository, decodeURIComponent(digest)),
+  ]);
+
+  const artifact = responses[0];
+  if(!artifact) {
+    notFound();
+  }
+
+  const manifest = responses[1];
   if(!manifest) {
     notFound();
   }
 
-  const tags = ["v1.0.0"]
+  const vulnerabilities = responses[2];
 
   return (
     <PageContainer>
@@ -44,6 +58,23 @@ export default async function ArtifactDetails({params}: ArtifactScopedProps) {
           </CardHeader>
           <CardContent>
             <ManifestCodeBlock manifestJson={JSON.stringify(manifest, null, 2)} />
+          </CardContent>
+        </Card>
+        <Separator/>
+        <Card>
+          <CardHeader>
+            <CardTitle>Vulnerabilities</CardTitle>
+          </CardHeader>
+          <CardContent>
+              {
+                artifact.scanned_at == null ? (
+                  <div className="text-center">
+                    Awaiting Scanning...
+                  </div>
+                ) : (
+                  <DataTable columns={vulnerability_columns} data={vulnerabilities} />
+                )
+              }
           </CardContent>
         </Card>
       </div> 
