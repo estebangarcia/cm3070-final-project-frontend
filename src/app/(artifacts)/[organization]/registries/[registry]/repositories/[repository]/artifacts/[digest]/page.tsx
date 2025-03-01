@@ -10,6 +10,7 @@ import { getManifest } from '@/lib/manifests/api';
 import { getArtifactVulnerabilities, getArtifact } from '@/lib/artifacts/api';
 import { columns as vulnerability_columns } from './vulnerability_columns';
 import { DataTable } from '@/components/ui/data-table';
+import { DeleteArtifactDialog } from './delete_artifact_dialog';
 
 export interface ArtifactScopedProps {
   params: Promise<{ 
@@ -50,6 +51,7 @@ export default async function ArtifactDetails({params}: ArtifactScopedProps) {
               title={`${repository}@${decodeURIComponent(digest)} Details`}
               description="Artifact Details"
             />
+            <DeleteArtifactDialog organization={organization} registry={registry} repository={repository} manifestDigest={decodeURIComponent(digest)} />
         </div>
         <Separator/>
         <Card>

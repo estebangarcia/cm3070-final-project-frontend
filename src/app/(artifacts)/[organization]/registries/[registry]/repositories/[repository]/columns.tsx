@@ -1,9 +1,23 @@
 "use client"
 
 import { Artifact } from "@/models/artifact"
+import { Trash } from "lucide-react"
 import { ColumnDef } from "@tanstack/react-table"
+import { Button } from "@/components/ui/button"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 const ARTIFACT_TYPE_MAPPING = {
+  "application/vnd.cncf.helm.config.v1+json": "Helm Chart",
   "application/vnd.python.artifact": "Python",
   "application/vnd.oci.image.config.v1+json": "Container Image",
   "application/vnd.docker.container.image.v1+json": "Container Image",
@@ -31,15 +45,4 @@ export const columns: ColumnDef<Artifact>[] = [
       return row.original.edges.tags.map((value) => value.tag).join(", ")
     }
   },
-  {
-    accessorKey: "actions",
-    header: "Actions",
-    cell: ({ row }) => {
-      const artifact = row.original
- 
-      return (
-        "" 
-      )
-    },
-  }
 ]
