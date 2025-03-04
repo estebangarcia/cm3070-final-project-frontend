@@ -24,3 +24,12 @@ export function getPersonalOrganization(organizations: Organization[]): Organiza
 	})
 	return result[0]
 }
+
+export async function createOrganization(access_token: string | undefined, name: string) {
+    const res = await fetch(apiUrl(`/organizations`), {
+        method: "POST",
+        headers: jwtAuthHeader(access_token),
+        body: JSON.stringify({name: name})
+    })
+    return res.json()
+}
