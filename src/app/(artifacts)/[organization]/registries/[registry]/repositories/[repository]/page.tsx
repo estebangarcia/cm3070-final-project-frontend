@@ -4,7 +4,7 @@ import PageContainer from "@/components/page-container";
 import { Separator } from "@/components/ui/separator";
 import { notFound } from "next/navigation";
 import { getArtifacts } from "@/lib/artifacts/api";
-import ArtifactsTable from "./data_table";
+import ArtifactsTable from "@/components/artifacts_data_table";
 
 export interface RegistryScopedProps {
   params: Promise<{ 

@@ -1,20 +1,7 @@
 "use client"
 
 import { Artifact } from "@/models/artifact"
-import { Trash } from "lucide-react"
 import { ColumnDef } from "@tanstack/react-table"
-import { Button } from "@/components/ui/button"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
 
 const ARTIFACT_TYPE_MAPPING = {
   "application/vnd.cncf.helm.config.v1+json": "Helm Chart",
@@ -23,7 +10,7 @@ const ARTIFACT_TYPE_MAPPING = {
   "application/vnd.docker.container.image.v1+json": "Container Image",
 }
 
-export const columns: ColumnDef<Artifact>[] = [
+export const artifactsColumns: ColumnDef<Artifact>[] = [
   {
     accessorKey: "artifact_type",
     header: "Artifact Type",
@@ -32,8 +19,20 @@ export const columns: ColumnDef<Artifact>[] = [
     }
   },
   {
+    accessorKey: "edges.repository.edges.registry.name",
+    header: "Registry Name",
+  },
+  {
+    accessorKey: "edges.repository.name",
+    header: "Repository Name",
+  },
+  {
     accessorKey: "digest",
     header: "Manifest Digest",
+  },
+  {
+    accessorKey: "uploaded_at",
+    header: "Manifest Uploaded At",
   },
   {
     accessorKey: "tags",
