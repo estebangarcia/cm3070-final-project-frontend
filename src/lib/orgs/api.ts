@@ -28,6 +28,17 @@ export async function getOrganizationStats(access_token: string | undefined, slu
     return res.json()
 }
 
+export async function getOrganizationMembers(access_token: string | undefined, slug: string) {
+    const res = await fetch(apiUrl(`/organizations/${slug}/members`), {
+        headers: jwtAuthHeader(access_token),
+    })
+    if(!res.ok) {
+        return null
+    }
+    return res.json()
+}
+
+
 export function getPersonalOrganization(organizations: Organization[]): Organization {
 	const result = organizations.filter(org => {
 		return org.is_personal;

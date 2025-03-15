@@ -1,4 +1,4 @@
-import {  ChevronRight, Database, LayoutDashboard } from "lucide-react"
+import {  ChevronRight, Database, LayoutDashboard, Users } from "lucide-react"
 import {
     Collapsible,
     CollapsibleContent,
@@ -106,6 +106,14 @@ export async function AppSidebar({ organizationSlug, registries, activeRegistryS
                                     ) : null}
                                 </SidebarMenuItem>
                             </Collapsible>
+                            <SidebarMenuItem key="Members">
+                                <SidebarMenuButton asChild>
+                                    <Link href={`/${organizationSlug}/members`}>
+                                        <Users />
+                                        <span>Organization Members</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>

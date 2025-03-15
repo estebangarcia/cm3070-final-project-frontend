@@ -11,3 +11,20 @@ export interface OrganizationStats {
     storage_used: number;
     vulnerable_artifacts_count: number;
 }
+
+export interface OrganizationMember {
+    given_name: string;
+    family_name: string;
+    email: string;
+    role: string;
+}
+
+export interface OrganizationInviteEdges{
+    organization?: Organization;
+}
+
+export interface OrganizationInvite {
+    invite_id: string;
+    role: string;
+    edges: OrganizationInviteEdges;
+}
