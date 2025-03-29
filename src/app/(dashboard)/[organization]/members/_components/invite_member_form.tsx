@@ -21,7 +21,7 @@ const FormSchema = z.object({
   email: z.string().min(1, {
     message: "Email is required",
   }),
-  role: z.enum(["member", "manager", "owner"]),
+  role: z.enum(["member", "manager", "admin"]),
 })
 
 interface InviteMemberFormProps {
@@ -82,7 +82,7 @@ export function InviteMemberForm({organization, onSuccessfulSubmit}: InviteMembe
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="owner">Owner</SelectItem>
+                    <SelectItem value="admin">Admin</SelectItem>
                     <SelectItem value="manager">Manager</SelectItem>
                     <SelectItem value="member">Member</SelectItem>
                   </SelectContent>
