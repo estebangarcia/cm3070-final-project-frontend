@@ -13,7 +13,6 @@ import {
 import { Plus } from "lucide-react"
 import { InviteMemberForm } from "./invite_member_form"
 import { useState } from "react";
-import { useRouter } from "next/navigation";
  
 interface InviteMemberDialogProps {
     organization: string;

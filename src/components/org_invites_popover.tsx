@@ -62,7 +62,7 @@ export default function OrganizationInvitesPopover({invites}: {
           currentInvites.map((invite) => (
             <Card className="w-auto" key={invite.invite_id}>
               <CardHeader>
-                <CardDescription className="text-white">You've been invited to join the organization "{invite.edges.organization?.name}" as {invite.role}</CardDescription>
+                <CardDescription className="text-white">You&apos;ve been invited to join the organization &quot;{invite.edges.organization?.name}&quot; as {invite.role}</CardDescription>
               </CardHeader>
               <CardFooter className="flex justify-between">
                 <Button variant="outline" onClick={rejectInviteOnClick(invite)}>Reject</Button>

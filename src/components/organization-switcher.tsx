@@ -38,7 +38,7 @@ export function OrganizationSwitcher({
     if(selectedOrganization.slug != previousSelectedOrganization.slug) {
       router.push(`/${selectedOrganization.slug}/dashboard`)
     }
-  }, [selectedOrganization, previousSelectedOrganization]);
+  }, [selectedOrganization, previousSelectedOrganization, router]);
 
   return (
     <SidebarMenu>

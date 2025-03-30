@@ -5,19 +5,8 @@ import { auth } from "@/auth";
 import { getOrganization } from "@/lib/orgs/api";
 import { notFound } from "next/navigation";
 import { getRegistries } from "@/lib/registries/api";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { Mail } from "lucide-react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
 import { getOrganizationInvites } from "@/lib/invites/api";
 import OrganizationInvitesPopover from "./org_invites_popover";
-
-
 
 export default async function SidebarLayout({children, organization, registry}: {
   children: React.ReactNode;

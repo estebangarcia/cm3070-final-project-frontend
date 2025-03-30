@@ -8,13 +8,13 @@ import { getOrganization, getOrganizationStats } from "@/lib/orgs/api";
 import { auth } from "@/auth";
 import ArtifactsTable from "@/components/artifacts_data_table";
 import { Organization, OrganizationStats } from "@/models/organization";
-import { getArtifact, getRecentOrgArtifacts } from "@/lib/artifacts/api";
+import { getRecentOrgArtifacts } from "@/lib/artifacts/api";
 
 export default async function OrganizationDashboard({params}: OrganizationScopedProps) {
   const { organization } = await params;
   const session = await auth()
 
-  const formatBytes = (bytes: any, decimals = 2) => {
+  const formatBytes = (bytes: number, decimals = 2) => {
       if (!+bytes) return '0 Bytes'
 
       const k = 1024

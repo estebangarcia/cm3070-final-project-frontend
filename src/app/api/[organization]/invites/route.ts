@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from "@/auth"
-import { acceptOrganizationInvite, inviteMemberToOrganization } from '@/lib/invites/api';
+import { inviteMemberToOrganization } from '@/lib/invites/api';
 
 interface InviteMemberRequest {
     email: string;
